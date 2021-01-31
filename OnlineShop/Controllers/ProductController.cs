@@ -44,7 +44,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet("mobile/{id:int}")]
-        public ActionResult<Mobile> GetMobile(int id)
+        public ActionResult<object> GetMobile(int id)
         {
             var mobile = _context.Mobiles.Include(x => x.IdNavigation)
                 .ThenInclude(x => x.Reviews).Where(x => x.Id == id).FirstOrDefault();
@@ -54,7 +54,10 @@ namespace OnlineShop.Controllers
                 return NotFound();
             }
 
-            return mobile;
+            return new { 
+                products = mobile,
+                filters = "filter"
+            };
         }
 
         [HttpGet("laptop")]
